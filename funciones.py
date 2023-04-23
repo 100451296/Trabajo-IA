@@ -1,8 +1,9 @@
 import csv
+import os
 
-
-CSV_ENCENDIDO = "./ENCENDIDO.csv"
-CSV_APAGADO =  "./APAGADO.csv"
+PATH = os.getcwd()
+CSV_ENCENDIDO = PATH + "/ENCENDIDO.csv"
+CSV_APAGADO = PATH + "/APAGADO.csv"
 
 COSTE_APAGAR = 1
 COSTE_ENCENDIDO = 2
@@ -57,6 +58,12 @@ def leer_csv(path: str) -> list:
 
 
 if __name__  == "__main__":
-
-    print("hola")   
+    a=leer_csv(CSV_APAGADO)
+    print("matriz apagado:")
+    print(a)
+    print()
+    b=leer_csv(CSV_ENCENDIDO)
+    print("matriz encendido:")
+    print(b)
+    print()
     pass
