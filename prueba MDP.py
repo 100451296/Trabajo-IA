@@ -25,6 +25,7 @@ def reward_function(state):
         return -1
 
 # Definir la función de transición
+#esto cambiarlo para que utilice las tablas que tenemos en vez de crearlas de cero
 def transition_function(state, action):
     if action == 0:  # apagar el termostato
         if state == temp_min:
@@ -46,17 +47,18 @@ def optimal_policy(state, value_function):
         transitions = transition_function(state, action)
         q_value = sum([transition[1] * (reward_function(transition[0]) + value_function[states.index(transition[0])]) for transition in transitions])
         q_values.append(q_value)
+    
+    print(q_values)
     return actions[q_values.index(max(q_values))]
-
-# Definir la duración de la simulación en intervalos de 30 minutos
-duracion_simulacion = 20
 
 # Inicializar la función de valor
 value_function = [0] * len(states)
 
 # Iniciar la simulación
 temp_actual = states[random.randint(0,len(states)-1)]
-for i in range(duracion_simulacion * 2):
+print("temperatura inicial: " + str(temp_actual))
+i = 0
+while True:
     state_index = states.index(temp_actual)
     action = optimal_policy(temp_actual, value_function)
     if temp_actual < 16:
@@ -73,8 +75,9 @@ for i in range(duracion_simulacion * 2):
     # Imprimir por pantalla los resultados
     print("Intervalo de tiempo: ", i+1)
     print("Estado actual: ", temp_actual)
-    print("Valor de la función de valor: ", value_function)
+    #print("Valor de la función de valor: ", value_function)
     print("Política óptima: ", action)
+    i += 1
     if temp_actual == temp_deseada:
         print("temperatura deseada alcanzada")
         break
