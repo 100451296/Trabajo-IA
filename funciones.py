@@ -45,16 +45,21 @@ def leer_csv(path: str) -> list:
 def bellman(v_valores, transiciones):
     valores = list()
     valor = float()
+    acumulacion = 0
 
     for accion in range(len(transiciones)):
         for estado in range(len(transiciones[accion])):
             for probabilidad in range(len(v_valores)):
                 if probabilidad == 0:
+                    acumulacion = 0
                     valor = 0
                     valor += COSTES[accion]
                     
                 valor += transiciones[accion][estado][probabilidad] * v_valores[probabilidad]
+                acumulacion += transiciones[accion][estado][probabilidad]
 
+            if acumulacion == 0:
+                valor = acumulacion
             if accion == 0:
                 valores.append([valor])
             else:
