@@ -5,10 +5,12 @@ PATH = os.getcwd()
 CSV_ENCENDIDO = PATH + "/ENCENDIDO.csv"
 CSV_APAGADO = PATH + "/APAGADO.csv"
 
-COSTE_APAGAR = 1
-COSTE_ENCENDIDO = 2
+COSTE_APAGAR = 10
+COSTE_ENCENDIDO = 35
 
 COSTES = [COSTE_APAGAR, COSTE_ENCENDIDO]
+
+MARGEN = 0.001
 
 INDICES = dict()
 
@@ -46,6 +48,7 @@ def bellman(v_valores, transiciones):
     valores = list()
     valor = float()
     acumulacion = 0
+    acciones_optimas = list()
 
     for accion in range(len(transiciones)):
         for estado in range(len(transiciones[accion])):
@@ -66,7 +69,22 @@ def bellman(v_valores, transiciones):
                 valores[estado].append(valor)
     
     for v in range(len(valores)):
+        acciones_optimas.append(valores[v].index(min(valores[v])))
         v_valores[v] = min(valores[v])
+        
+
+    return acciones_optimas
+
+def iter_bellman(v_valores, transiciones):
+
+    anterior = 100
+    acciones = list()
+
+    while abs(sum(v_valores) - anterior) > MARGEN:
+        anterior = sum(v_valores)
+        acciones = bellman(v_valores, transiciones)
+
+    return acciones
 
 if __name__  == "__main__":
     a=leer_csv(CSV_APAGADO)

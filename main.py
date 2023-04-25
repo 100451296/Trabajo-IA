@@ -23,8 +23,8 @@ if __name__ == "__main__":
 
 
     print(valores)
-    bellman(valores, transiciones)
+    acciones = iter_bellman(valores, transiciones)
 
-    print(valores)
+    print("Valores:", valores, "\nAcciones:", acciones)
         
         
