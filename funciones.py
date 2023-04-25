@@ -8,30 +8,14 @@ CSV_APAGADO = PATH + "/APAGADO.csv"
 COSTE_APAGAR = 1
 COSTE_ENCENDIDO = 2
 
-INDICES = {
-    "16" : 0,
-    "16.5" : 1,
-    "17" : 2,
-    "17.5" : 3,
-    "18" : 4,
-    "18.5" : 5,
-    "19" : 6,
-    "19.5" : 7,
-    "20" : 8,
-    "20.5" : 9,
-    "21" : 10,
-    "21.5" : 11,
-    "22" : 12,
-    "22.5" : 13,
-    "23" : 14,
-    "23.5" : 15,
-    "24" : 16,
-    "24.5" : 17,
-    "25" : 18,
-}
+COSTES = [COSTE_APAGAR, COSTE_ENCENDIDO]
+
+INDICES = dict()
 
 def leer_csv(path: str) -> list:
-     # Abre el archivo csv
+    global INDICES  # declarar que se utilizará la variable global
+    
+    # Abre el archivo csv
     with open(path, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         
@@ -51,11 +35,33 @@ def leer_csv(path: str) -> list:
     matriz = []
     for i in range(1, len(data)):
         matriz.append(data[i][1:])
-
+        
+        # Agregar los índices correspondientes a la variable global INDICES
+        key = str(data[i][0])
+        INDICES[key] = i-1
 
     return matriz
 
+def bellman(v_valores, transiciones):
+    valores = list()
+    valor = float()
 
+    for accion in range(len(transiciones)):
+        for estado in range(len(transiciones[accion])):
+            for probabilidad in range(len(v_valores)):
+                if probabilidad == 0:
+                    valor = 0
+                    valor += COSTES[accion]
+                    
+                valor += transiciones[accion][estado][probabilidad] * v_valores[probabilidad]
+
+            if accion == 0:
+                valores.append([valor])
+            else:
+                valores[estado].append(valor)
+    
+    for v in range(len(valores)):
+        v_valores[v] = min(valores[v])
 
 if __name__  == "__main__":
     a=leer_csv(CSV_APAGADO)
