@@ -29,7 +29,8 @@ if __name__ == "__main__":
 
     print("Valores:", valores, "\nAcciones:", acciones)
     """
-
     ruta_directorio = 'Transiciones'
     ruta_absoluta_directorio = os.path.abspath(ruta_directorio)
-    leer_csv_en_directorio(ruta_absoluta_directorio)
+    rutas = obtener_rutas_ficheros(ruta_absoluta_directorio)
+
+    lista_transiciones(rutas)
