@@ -15,15 +15,24 @@ MARGEN = 0.001
 INDICES = dict()
 
 def leer_csv_en_directorio(directorio):
-    resultado = []
+    transiciones_apagado = []
+    transiciones_encendido = []
     for archivo in os.listdir(directorio):
         if archivo.endswith('.csv'):
             ruta = os.path.join(directorio, archivo)
             with open(ruta, 'r') as file:
                 lector_csv = csv.reader(file)
                 for fila in lector_csv:
-                    resultado.append(fila)
-    print(resultado)
+                    if(archivo == "APAGADO.csv"):
+                        transiciones_apagado.append(fila)
+                    elif(archivo == "ENCENDIDO.csv"):
+                        transiciones_encendido.append(fila)
+    """
+    print(transiciones_apagado)
+    print("\n")
+    print(transiciones_encendido)
+    """
+    print([transiciones_apagado, transiciones_encendido])
 
 def leer_csv(path: str) -> list:
     global INDICES  # declarar que se utilizará la variable global

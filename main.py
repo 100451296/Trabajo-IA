@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     transiciones = [transiciones_apagado, transiciones_encendido]
     
+    print(transiciones)
     
     print("Apagado:", transiciones_apagado, "\n\nEncendido:", transiciones_encendido)
     print("\n\n", INDICES)
@@ -28,7 +29,7 @@ if __name__ == "__main__":
 
     print("Valores:", valores, "\nAcciones:", acciones)
     """
-   
+
     ruta_directorio = 'Transiciones'
     ruta_absoluta_directorio = os.path.abspath(ruta_directorio)
     leer_csv_en_directorio(ruta_absoluta_directorio)
