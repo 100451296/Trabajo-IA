@@ -5,7 +5,7 @@ PATH = os.getcwd()
 CSV_ENCENDIDO = PATH + "/ENCENDIDO.csv"
 CSV_APAGADO = PATH + "/APAGADO.csv"
 
-COSTE_APAGAR = 10
+COSTE_APAGAR = 4000
 COSTE_ENCENDIDO = 35
 
 COSTES = [COSTE_APAGAR, COSTE_ENCENDIDO]
@@ -13,6 +13,17 @@ COSTES = [COSTE_APAGAR, COSTE_ENCENDIDO]
 MARGEN = 0.001
 
 INDICES = dict()
+
+def leer_csv_en_directorio(directorio):
+    resultado = []
+    for archivo in os.listdir(directorio):
+        if archivo.endswith('.csv'):
+            ruta = os.path.join(directorio, archivo)
+            with open(ruta, 'r') as file:
+                lector_csv = csv.reader(file)
+                for fila in lector_csv:
+                    resultado.append(fila)
+    print(resultado)
 
 def leer_csv(path: str) -> list:
     global INDICES  # declarar que se utilizará la variable global
