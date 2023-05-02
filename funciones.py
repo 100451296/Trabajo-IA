@@ -14,25 +14,21 @@ MARGEN = 0.001
 
 INDICES = dict()
 
-def leer_csv_en_directorio(directorio):
-    transiciones_apagado = []
-    transiciones_encendido = []
-    for archivo in os.listdir(directorio):
-        if archivo.endswith('.csv'):
-            ruta = os.path.join(directorio, archivo)
-            with open(ruta, 'r') as file:
-                lector_csv = csv.reader(file)
-                for fila in lector_csv:
-                    if(archivo == "APAGADO.csv"):
-                        transiciones_apagado.append(fila)
-                    elif(archivo == "ENCENDIDO.csv"):
-                        transiciones_encendido.append(fila)
-    """
-    print(transiciones_apagado)
-    print("\n")
-    print(transiciones_encendido)
-    """
-    print([transiciones_apagado, transiciones_encendido])
+def obtener_rutas_ficheros(directorio):
+    """Devuelve una lista con las rutas completas de los ficheros del directorio especificado"""
+    rutas_ficheros = []
+    for raiz, directorios, archivos in os.walk(directorio):
+        for nombre_archivo in archivos:
+            ruta_completa = os.path.join(raiz, nombre_archivo)
+            rutas_ficheros.append(ruta_completa)
+    return rutas_ficheros
+
+def lista_transiciones(rutas):
+    transiciones = []
+    for ruta in rutas:
+        transiciones.append(leer_csv(ruta))
+    return transiciones
+
 
 def leer_csv(path: str) -> list:
     global INDICES  # declarar que se utilizará la variable global
