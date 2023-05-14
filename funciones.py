@@ -6,7 +6,7 @@ CSV_ENCENDIDO = PATH + "/ENCENDIDO.csv"
 CSV_APAGADO = PATH + "/APAGADO.csv"
 CSV_PATH = PATH + "/Transiciones"
 
-COSTE_APAGAR = 4000
+COSTE_APAGAR = 20
 COSTE_ENCENDIDO = 35
 
 COSTES = [COSTE_APAGAR, COSTE_ENCENDIDO]
@@ -137,6 +137,6 @@ def result(acciones, valores):
 
     for key in INDICES.keys():
         print("    ", INDICES[key],espaciado(len(INDICES[key])),  "|", INDICES_ACCIONES[acciones[key]])
-        
+
 if __name__  == "__main__":
     transiciones = trasiciones_list()
