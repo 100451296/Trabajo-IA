@@ -24,7 +24,7 @@ ENCENDIDO_KEY = "ENCENDIDO.csv"
 INDICES_ACCIONES = dict()
 
 def trasiciones_list():
-    """Devuelve una lista con las rutas completas de los ficheros del directorio especificado"""
+    """Una lista con todas las matrices de transicion para cada accion"""
     transiciones = []
     i = 0
     for raiz, directorios, archivos in os.walk(CSV_PATH):
@@ -39,6 +39,7 @@ def trasiciones_list():
     return transiciones
 
 def leer_csv(path: str) -> list:
+    """Lee un archivo csv y devuelve una matriz con su contenido"""
     global INDICES  # declarar que se utilizará la variable global
     
     # Abre el archivo csv
@@ -69,6 +70,7 @@ def leer_csv(path: str) -> list:
     return matriz
 
 def bellman(v_valores, transiciones):
+    """Calcula los v_valores mediante Bellman"""
     valores = list()
     valor = float()
     acumulacion = 0
@@ -100,7 +102,7 @@ def bellman(v_valores, transiciones):
     return acciones_optimas
 
 def iter_bellman(v_valores, transiciones):
-
+    """Calcula los v_valores iterando hasta que la diferencia sea menor al margen. Llama a bellman en cada iteracion"""
     anterior = 100
     acciones = list()
 
@@ -111,12 +113,14 @@ def iter_bellman(v_valores, transiciones):
     return acciones
 
 def init_valores():
+    """Inicializa la lista de valores a 0"""
     valores = list()
     for estado in range(len(INDICES)):
         valores.append(0)
     return valores 
 
 def espaciado(len, num_espacios=5):
+    """Devuelve un string de num_espacios caracteres, rellena con espacios lo que falte a partir de la longitud de la cadena"""
     espacio = ""
     
     for i in range(num_espacios - len):
@@ -125,6 +129,7 @@ def espaciado(len, num_espacios=5):
     return espacio
 
 def result(acciones, valores):
+    """Muestra con consola los resultados obtenidos"""
     print("******************************************************")
     print(" V VALORES PARA CADA ESTADO")
     print("******************************************************")
@@ -143,7 +148,7 @@ def result(acciones, valores):
     print("\n")
 
 def test(acciones, iter=1):
-    
+    """Muestra la politica optima para iter estados al azar"""
     print("*******************************************************")
     print(" TEST", f"({iter} iteraciones)")
     print("*******************************************************")
@@ -157,7 +162,6 @@ def test(acciones, iter=1):
         else:
             print("Temperatura actual:", INDICES[estado], "\033[91mSe tomará la acción ->", accion, "\033[0m")
 
-    
     print()
 
     
