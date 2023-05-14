@@ -15,4 +15,4 @@ if __name__ == "__main__":
 
     result(acciones, valores)
 
-    
+    test(acciones, iter=10)
