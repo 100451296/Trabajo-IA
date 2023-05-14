@@ -4,6 +4,7 @@ import os
 PATH = os.getcwd()
 CSV_ENCENDIDO = PATH + "/ENCENDIDO.csv"
 CSV_APAGADO = PATH + "/APAGADO.csv"
+CSV_PATH = PATH + "/Transiciones"
 
 COSTE_APAGAR = 4000
 COSTE_ENCENDIDO = 35
@@ -14,21 +15,26 @@ MARGEN = 0.001
 
 INDICES = dict()
 
-def obtener_rutas_ficheros(directorio):
+TRANSICIONES_INDEX = dict()
+APAGADO_KEY = "APAGADO.csv"
+ENCENDIDO_KEY = "ENCENDIDO.csv"
+
+INDICES_ACCIONES = {
+    0: "Apagar",
+    1: "Encender"
+}
+
+def trasiciones_list():
     """Devuelve una lista con las rutas completas de los ficheros del directorio especificado"""
-    rutas_ficheros = []
-    for raiz, directorios, archivos in os.walk(directorio):
+    transiciones = []
+    i = 0
+    for raiz, directorios, archivos in os.walk(CSV_PATH):
         for nombre_archivo in archivos:
             ruta_completa = os.path.join(raiz, nombre_archivo)
-            rutas_ficheros.append(ruta_completa)
-    return rutas_ficheros
-
-def lista_transiciones(rutas):
-    transiciones = []
-    for ruta in rutas:
-        transiciones.append(leer_csv(ruta))
+            transiciones.append(leer_csv(ruta_completa))
+            TRANSICIONES_INDEX[nombre_archivo] = i
+            i += 1
     return transiciones
-
 
 def leer_csv(path: str) -> list:
     global INDICES  # declarar que se utilizará la variable global
@@ -56,7 +62,7 @@ def leer_csv(path: str) -> list:
         
         # Agregar los índices correspondientes a la variable global INDICES
         key = str(data[i][0])
-        INDICES[key] = i-1
+        INDICES[i-1] = key
 
     return matriz
 
@@ -102,13 +108,35 @@ def iter_bellman(v_valores, transiciones):
 
     return acciones
 
+def init_valores():
+    valores = list()
+    for estado in range(len(INDICES)):
+        valores.append(0)
+    return valores 
+
+def espaciado(len, num_espacios=5):
+    espacio = ""
+    
+    for i in range(num_espacios - len):
+        espacio += " "
+
+    return espacio
+
+def result(acciones, valores):
+    print("******************************")
+    print("V VALORES PARA CADA ESTADO")
+    print("******************************")
+    
+    for key in INDICES.keys():
+        print("    ", INDICES[key],espaciado(len(INDICES[key])),  "|", valores[key])
+
+    print("\n")
+    print("******************************")
+    print("POLITICA OPTIMA PARA CADA ESTADO")
+    print("******************************")
+
+    for key in INDICES.keys():
+        print("    ", INDICES[key],espaciado(len(INDICES[key])),  "|", INDICES_ACCIONES[acciones[key]])
+        
 if __name__  == "__main__":
-    a=leer_csv(CSV_APAGADO)
-    print("matriz apagado:")
-    print(a)
-    print()
-    b=leer_csv(CSV_ENCENDIDO)
-    print("matriz encendido:")
-    print(b)
-    print()
-    pass
+    transiciones = trasiciones_list()

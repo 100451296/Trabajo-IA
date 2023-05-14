@@ -6,31 +6,13 @@ from funciones import *
 
 if __name__ == "__main__":
 
-    """
-    transiciones_apagado = leer_csv(CSV_APAGADO)
-    transiciones_encendido = leer_csv(CSV_ENCENDIDO)
-
-    transiciones = [transiciones_apagado, transiciones_encendido]
     
-    print(transiciones)
-    
-    print("Apagado:", transiciones_apagado, "\n\nEncendido:", transiciones_encendido)
-    print("\n\n", INDICES)
-    print("\n\n", "Indices:", len(INDICES), "\nMatriz:", len(transiciones_apagado))
-    
+    transiciones = trasiciones_list()
 
-    valores = list()
-    for estado in range(len(transiciones[0])):
-        valores.append(0)
+    valores = init_valores()
 
-
-    print(valores)
     acciones = iter_bellman(valores, transiciones)
 
-    print("Valores:", valores, "\nAcciones:", acciones)
-    """
-    ruta_directorio = 'Transiciones'
-    ruta_absoluta_directorio = os.path.abspath(ruta_directorio)
-    rutas = obtener_rutas_ficheros(ruta_absoluta_directorio)
+    result(acciones, valores)
 
-    lista_transiciones(rutas)
+    
